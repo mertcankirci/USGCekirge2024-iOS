@@ -6,7 +6,7 @@
 //
 
 import UIKit
-//MARK: Burayi githubfollowers ve son cloneladigin repodan yap , sonrasinda cityCelldeki expandable icine universityVC olusturup koy , universityCell de olusturman lazim cloneladigin projeyle benzer
+
 class CityListVC: UIViewController {
     
     enum Section {
@@ -16,27 +16,18 @@ class CityListVC: UIViewController {
     var cities: [City] = []
     var page: Int = 1
     var hasMoreCities: Bool = true
-    private let padding: CGFloat = 12
-    var universityListVC = UniversityListVC()
     
     var collectionView: UICollectionView!
     var dataSource : UICollectionViewDiffableDataSource<Section, City>!
-    var flowLayout: UICollectionViewFlowLayout!
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        configureFlowLayout()
+        
         configureCollectionView()
         configureViewController()
         configureDataSource()
         getCities(page: page)
-        
-        //        collectionView.layer.cornerRadius = 8
-        //        collectionView.layer.borderColor = UIColor.systemGreen.cgColor
-        //        collectionView.layer.borderWidth = 2
     }
     
     
@@ -44,14 +35,9 @@ class CityListVC: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
-    func configureFlowLayout() {
-        flowLayout = UICollectionViewFlowLayout()
-        flowLayout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
-        flowLayout.itemSize = CGSize(width: calculateAvailableWidth(), height: 30)
-    }
-    
     private func configureCollectionView() {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: UIHelper.createCityListCollectionViewFlowLayout(in: view))
+        collectionView.showsVerticalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.allowsMultipleSelection = true
         view.addSubview(collectionView)
@@ -68,10 +54,7 @@ class CityListVC: UIViewController {
         collectionView.backgroundColor = .systemBackground
         collectionView.register(ExpandableCityCell.self, forCellWithReuseIdentifier: ExpandableCityCell.reuseID)
         collectionView.register(ExpandableUniversityCell.self, forCellWithReuseIdentifier: ExpandableUniversityCell.reuseID)
-        
-        
     }
-    
     
     private func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Section, City>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, city) -> UICollectionViewCell? in
@@ -130,32 +113,27 @@ extension CityListVC : UICollectionViewDelegate {
         let cell = collectionView.cellForItem(at: indexPath) as! ExpandableCityCell
         if cell.isSelected {
             collectionView.deselectItem(at: indexPath, animated: true)
+            
             return true
         } else {
             collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
         }
         dataSource.refresh()
+        
         return false
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // Trigger a layout update when an item is selected
         collectionView.collectionViewLayout.invalidateLayout()
         collectionView.reloadData()
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        // Trigger a layout update when an item is deselected
         collectionView.collectionViewLayout.invalidateLayout()
     }
-    
-    
 }
 
 extension UICollectionViewDiffableDataSource {
-    /// Reapplies the current snapshot to the data source, animating the differences.
-    /// - Parameters:
-    ///   - completion: A closure to be called on completion of reapplying the snapshot.
     func refresh(completion: (() -> Void)? = nil) {
         self.apply(self.snapshot(), animatingDifferences: true, completion: completion)
     }
@@ -171,7 +149,7 @@ extension CityListVC: UICollectionViewDelegateFlowLayout {
         if isSelected {
             let universityCellHeight = CGFloat(city.universities.count) * 40
             let totalHeight = universityCellHeight + height
-            print(city.universities.count)
+            
             return CGSize(width: calculateAvailableWidth(), height: totalHeight)
         } else {
             return CGSize(width: calculateAvailableWidth(), height: height)

@@ -28,7 +28,7 @@ class USGBodyLabel: UILabel {
         translatesAutoresizingMaskIntoConstraints = false
         font = UIFont.preferredFont(forTextStyle: .body)
         textColor = .secondaryLabel
-        adjustsFontSizeToFitWidth = true
+        adjustsFontSizeToFitWidth = false
         minimumScaleFactor = 0.75
         lineBreakMode = .byTruncatingTail
         

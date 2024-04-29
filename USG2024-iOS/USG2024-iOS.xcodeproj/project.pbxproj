@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		544B98222BD9723800B6D325 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B98212BD9723800B6D325 /* UIHelper.swift */; };
 		545174272BD99D6B002F173C /* UniversityListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545174262BD99D6B002F173C /* UniversityListVC.swift */; };
+		5457F0B02BDFFF5B0004EAC3 /* UniversityDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5457F0AF2BDFFF5B0004EAC3 /* UniversityDetailCell.swift */; };
+		5457F0B22BE008550004EAC3 /* UniversityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5457F0B12BE008550004EAC3 /* UniversityDetailView.swift */; };
+		5457F0B42BE01CBF0004EAC3 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5457F0B32BE01CBF0004EAC3 /* UserDefaultsManager.swift */; };
 		54CC11F42BC40F8700DC526A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CC11F32BC40F8700DC526A /* AppDelegate.swift */; };
 		54CC11F62BC40F8700DC526A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CC11F52BC40F8700DC526A /* SceneDelegate.swift */; };
 		54CC11FD2BC40F8800DC526A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54CC11FC2BC40F8800DC526A /* Assets.xcassets */; };
@@ -36,6 +39,9 @@
 /* Begin PBXFileReference section */
 		544B98212BD9723800B6D325 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		545174262BD99D6B002F173C /* UniversityListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversityListVC.swift; sourceTree = "<group>"; };
+		5457F0AF2BDFFF5B0004EAC3 /* UniversityDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversityDetailCell.swift; sourceTree = "<group>"; };
+		5457F0B12BE008550004EAC3 /* UniversityDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversityDetailView.swift; sourceTree = "<group>"; };
+		5457F0B32BE01CBF0004EAC3 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		54CC11F02BC40F8700DC526A /* USG2024-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "USG2024-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		54CC11F32BC40F8700DC526A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		54CC11F52BC40F8700DC526A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -129,8 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				54CC121D2BC41FD200DC526A /* CustomViews */,
-				54CC121B2BC41F8E00DC526A /* USGContainerView.swift */,
-				54CC12342BC430FE00DC526A /* USGEmptyStateView.swift */,
+				5457F0B12BE008550004EAC3 /* UniversityDetailView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -149,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				54CC12142BC4163100DC526A /* NetworkManager.swift */,
+				5457F0B32BE01CBF0004EAC3 /* UserDefaultsManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -173,6 +179,8 @@
 		54CC121D2BC41FD200DC526A /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				54CC12342BC430FE00DC526A /* USGEmptyStateView.swift */,
+				54CC121B2BC41F8E00DC526A /* USGContainerView.swift */,
 				54CC12252BC4231600DC526A /* Buttons */,
 				54CC121E2BC4205E00DC526A /* Labels */,
 			);
@@ -213,6 +221,7 @@
 			children = (
 				54CC12512BC5591E00DC526A /* ExpandableCityCell.swift */,
 				54D5EDF02BDAD995007851B4 /* ExpandableUniversityCell.swift */,
+				5457F0AF2BDFFF5B0004EAC3 /* UniversityDetailCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -297,6 +306,8 @@
 				54CC12502BC5590000DC526A /* CityListVC.swift in Sources */,
 				54CC124E2BC5448700DC526A /* HomeVC.swift in Sources */,
 				54CC12182BC4171E00DC526A /* USGError.swift in Sources */,
+				5457F0B02BDFFF5B0004EAC3 /* UniversityDetailCell.swift in Sources */,
+				5457F0B42BE01CBF0004EAC3 /* UserDefaultsManager.swift in Sources */,
 				54CC12292BC4237F00DC526A /* USGAlertVC.swift in Sources */,
 				545174272BD99D6B002F173C /* UniversityListVC.swift in Sources */,
 				54CC12242BC422F200DC526A /* USGSecondaryTitleLabel.swift in Sources */,
@@ -306,6 +317,7 @@
 				54CC12152BC4163100DC526A /* NetworkManager.swift in Sources */,
 				54CC11F42BC40F8700DC526A /* AppDelegate.swift in Sources */,
 				54CC11F62BC40F8700DC526A /* SceneDelegate.swift in Sources */,
+				5457F0B22BE008550004EAC3 /* UniversityDetailView.swift in Sources */,
 				54CC122E2BC4264200DC526A /* FavouritesListVC.swift in Sources */,
 				54CC12132BC4153B00DC526A /* University.swift in Sources */,
 				54D5EDF12BDAD995007851B4 /* ExpandableUniversityCell.swift in Sources */,
@@ -458,6 +470,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -487,6 +500,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

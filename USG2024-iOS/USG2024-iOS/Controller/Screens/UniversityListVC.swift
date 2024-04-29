@@ -32,6 +32,7 @@ class UniversityListVC: UIViewController {
     
     func configureCollectionView() {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: UIHelper.createUniversityListCollectionViewFlowLayout(in: view))
+        collectionView.showsVerticalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.allowsMultipleSelection = true 
         
@@ -65,6 +66,12 @@ class UniversityListVC: UIViewController {
         snapshot.appendItems(universities)
         DispatchQueue.main.async { self.dataSource.apply(snapshot, animatingDifferences: true) }
     }
+    
+    private func calculateAvailableWidth() -> CGFloat {
+        let width = view.bounds.width
+        let availableWidth = width - 64
+        return availableWidth
+    }
 }
 
 extension UniversityListVC: UICollectionViewDelegate {
@@ -73,9 +80,10 @@ extension UniversityListVC: UICollectionViewDelegate {
         
         if cell.isSelected {
             collectionView.deselectItem(at: indexPath, animated: true)
+            
+            return true
         } else {
             collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
-            return true
         }
         dataSource.refresh()
         return false

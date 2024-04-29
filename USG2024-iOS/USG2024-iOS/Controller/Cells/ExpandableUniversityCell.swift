@@ -15,7 +15,7 @@ class ExpandableUniversityCell: UICollectionViewCell {
     let heartButton = UIButton()
     let expandCollapseImageView = UIImageView()
     let universityLabel = USGBodyLabel(textAlignment: .left)
-    
+    var didFavourite: Bool = false
     
     override var isSelected: Bool {
         didSet {
@@ -40,8 +40,7 @@ class ExpandableUniversityCell: UICollectionViewCell {
         self.university = university
         self.universityLabel.text = university.name
         
-        
-        print(university.name)
+        heartButton.setImage(UIImage(systemName: isUniversityFavorited(university) ? "heart.fill" : "heart"), for: .normal)
     }
     
     func configure() {
@@ -49,10 +48,11 @@ class ExpandableUniversityCell: UICollectionViewCell {
         expandCollapseImageView.image = UIImage(systemName: "plus")
         expandCollapseImageView.tintColor = UIColor.systemGreen
         
-        heartButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        
         heartButton.tintColor = .systemGreen
         heartButton.addTarget(self, action: #selector(heartButtonTapped), for: .touchUpInside)
         heartButton.translatesAutoresizingMaskIntoConstraints = false
+
         
         addSubview(heartButton)
         addSubview(universityLabel)
@@ -75,13 +75,31 @@ class ExpandableUniversityCell: UICollectionViewCell {
             universityLabel.leadingAnchor.constraint(equalTo: expandCollapseImageView.trailingAnchor, constant: padding),
             universityLabel.trailingAnchor.constraint(equalTo: heartButton.leadingAnchor, constant: -padding),
             universityLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            universityLabel.heightAnchor.constraint(equalToConstant: 20)
+            universityLabel.heightAnchor.constraint(equalToConstant: 20),
         ])
-        
     }
     
-    @objc func heartButtonTapped() {   
-        heartButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+
+    
+    @objc func heartButtonTapped() {
+        if let university = university {
+            didFavourite.toggle()
+            if didFavourite {
+                heartButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                do {
+                    try UserDefaultsManager.shared.addUniversityToFavorites(university)
+                } catch {
+                    inputViewController?.presentGFAlertOnMainThread(title: "ASD", message: "ASD", buttonTitle: "ASD")
+                }
+            } else {
+                heartButton.setImage(UIImage(systemName: "heart"), for: .normal)
+                UserDefaultsManager.shared.removeUniversityFromFavorites(university)
+            }
+        }
     }
     
+    private func isUniversityFavorited(_ university: University) -> Bool {
+        let favoriteUniversities = UserDefaultsManager.shared.loadFavoriteUniversities()
+        return favoriteUniversities.contains(university)
+    }
 }

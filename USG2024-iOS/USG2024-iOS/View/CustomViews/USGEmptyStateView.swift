@@ -35,17 +35,18 @@ class USGEmptyStateView: UIView {
         messageLabel.textColor = .secondaryLabel
         
         logoImageView.image = UIImage(named: "empty-state-logo")
+        logoImageView.tintColor = UIColor.systemGreen
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            messageLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -150),
+            messageLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -120),
             messageLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 40),
             messageLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -40),
             messageLabel.heightAnchor.constraint(equalToConstant: 200),
             
-            logoImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1.3),
-            logoImageView.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1.3),
-            logoImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 170),
+            logoImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1.0),
+            logoImageView.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1.0),
+            logoImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 50),
             logoImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 40)
         ])
     }

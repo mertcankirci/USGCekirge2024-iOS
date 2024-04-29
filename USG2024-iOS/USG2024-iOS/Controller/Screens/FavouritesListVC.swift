@@ -16,6 +16,7 @@ class FavouritesListVC: UIViewController {
         super.viewDidLoad()
         configureViewController()
         configureNavigationBar()
+        embedCityListViewController()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -45,6 +46,28 @@ class FavouritesListVC: UIViewController {
             closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             closeButton.topAnchor.constraint(equalTo: universitelerLabel.topAnchor)
         ])
+    }
+    
+    func embedCityListViewController() {
+        let favorites = UserDefaultsManager.shared.loadFavoriteUniversities()
+        if favorites.isEmpty {
+            showEmptyStateView(with: "You don't have any favorites. Go favorite a few universities 😊.", in: self.view)
+        } else {
+            let universityListVC = UniversityListVC()
+            universityListVC.updateData(on: UserDefaultsManager.shared.loadFavoriteUniversities())
+            addChild(universityListVC)
+            universityListVC.view.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(universityListVC.view)
+            
+            NSLayoutConstraint.activate([
+                universityListVC.view.topAnchor.constraint(equalTo: universitelerLabel.bottomAnchor, constant: 32), // Adjust the top constraint according to your design
+                universityListVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+                universityListVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+                universityListVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16)
+            ])
+            
+            universityListVC.didMove(toParent: self)
+        }
     }
     
 }
