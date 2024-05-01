@@ -6,89 +6,95 @@
 //
 
 import UIKit
+import SafariServices
+
+protocol UniversityDetailViewDelegate: AnyObject {
+    func didTapWebsite(url: URL)
+}
 
 class UniversityDetailView: UIView {
     
-    // University bilgilerini tutacak değişken
-    var university: University? {
-        didSet {
-            updateUI()
-        }
-    }
+    var university: University? = nil
+    let padding: CGFloat = 8.0
     
-
-    private let phoneLabel = USGBodyLabel(textAlignment: .left)
-    private let rectorLabel = USGBodyLabel(textAlignment: .left)
-    private let emailLabel = USGBodyLabel(textAlignment: .left)
-    private let faxLabel = USGBodyLabel(textAlignment: .left)
-    private let websiteLabel = USGBodyLabel(textAlignment: .left)
-    private let addressLabel = USGBodyLabel(textAlignment: .left)
+    //UIElements
+    var phoneLabel = USGFootnoteLabel(textAlignment: .left)
+    var faxLabel = USGFootnoteLabel(textAlignment: .left)
+    var websiteLabel = USGFootnoteLabel(textAlignment: .left)
+    var emailLabel = USGFootnoteLabel(textAlignment: .left)
+    var adressLabel = USGFootnoteLabel(textAlignment: .left)
+    var rectorLabel = USGFootnoteLabel(textAlignment: .left)
+    var stackView: UIStackView!
     
-    private lazy var stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 10
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
+    weak var delegate: UniversityDetailViewDelegate?
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
+        configureStackView()
+        configure()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUIView() {
-        phoneLabel.text = university?.phone
-        rectorLabel.text = university?.rector
-        emailLabel.text = university?.email
-        faxLabel.text = university?.fax
-        websiteLabel.text = university?.name
-        addressLabel.text = university?.adress
+    func configureStackView() {
+        stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 2.0
+        stackView.alignment = .fill
+        stackView.distribution = .fillEqually
+        stackView.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    private func setupUI() {
+    func configure() {
+        [
+            self.phoneLabel,
+            self.faxLabel,
+            self.websiteLabel,
+            self.emailLabel,
+            self.adressLabel,
+            self.rectorLabel,
+        ].forEach({ stackView.addArrangedSubview($0) })
         
         addSubview(stackView)
         
-        stackView.addArrangedSubview(phoneLabel)
-        stackView.addArrangedSubview(rectorLabel)
-        stackView.addArrangedSubview(emailLabel)
-        stackView.addArrangedSubview(faxLabel)
-        stackView.addArrangedSubview(websiteLabel)
-        stackView.addArrangedSubview(addressLabel)
-        
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            stackView.heightAnchor.constraint(equalToConstant: 200)
+            stackView.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding)
         ])
         
-        // Telefon numarasına tıklama gesture'ı ekleme
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(callUniversity))
-        phoneLabel.addGestureRecognizer(tapGesture)
+        let phoneTapGesture = UITapGestureRecognizer(target: self, action: #selector(phoneLabelTapped))
+        phoneLabel.addGestureRecognizer(phoneTapGesture)
+        phoneLabel.isUserInteractionEnabled = true
+        
+        let websiteTapGesture = UITapGestureRecognizer(target: self, action: #selector(websiteLabelTapped))
+        websiteLabel.addGestureRecognizer(websiteTapGesture)
+        websiteLabel.isUserInteractionEnabled = true
     }
     
-    // UI elemanlarını güncelleme
-    private func updateUI() {
-        phoneLabel.text = university?.phone
-        rectorLabel.text = university?.rector
-        emailLabel.text = university?.email
-        faxLabel.text = university?.fax
-        websiteLabel.text = university?.name
-        addressLabel.text = university?.adress
+    func updateData(on university: University?) {
+        guard let university = university else { return }
+        self.phoneLabel.text = "phone: \(String(describing: university.phone))"
+        self.faxLabel.text = "fax: \(String(describing: university.fax))"
+        self.websiteLabel.text = "website: \(String(describing: university.website))"
+        self.emailLabel.text = "email: \(String(describing: university.email))"
+        self.adressLabel.text = "address: \(String(describing: university.adress))"
+        self.rectorLabel.text = "rector: \(String(describing: university.rector))"
     }
     
+    @objc func phoneLabelTapped() {
+        guard let phoneNumber = university?.phone, let url = URL(string: "tel://\(phoneNumber)") else { return }
+        UIApplication.shared.open(url)
+    }
     
-    @objc private func callUniversity() {
-        guard let phoneNumber = university?.phone else { return }
-        if let phoneURL = URL(string: "tel://\(phoneNumber)"), UIApplication.shared.canOpenURL(phoneURL) {
-            UIApplication.shared.open(phoneURL, options: [:], completionHandler: nil)
-        }
+    @objc func websiteLabelTapped() {
+        guard let website = university?.website, let url = URL(string: website) else { print("YARRAK"); return }
+        guard let delegate = delegate else { print("delegate yok"); return }
+        delegate.didTapWebsite(url: url)
     }
 }
 

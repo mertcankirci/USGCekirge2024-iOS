@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		54006B242BE269B200FECA98 /* UICollectionViewCell+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54006B232BE269B200FECA98 /* UICollectionViewCell+Ext.swift */; };
 		544B98222BD9723800B6D325 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B98212BD9723800B6D325 /* UIHelper.swift */; };
 		545174272BD99D6B002F173C /* UniversityListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545174262BD99D6B002F173C /* UniversityListVC.swift */; };
-		5457F0B02BDFFF5B0004EAC3 /* UniversityDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5457F0AF2BDFFF5B0004EAC3 /* UniversityDetailCell.swift */; };
 		5457F0B22BE008550004EAC3 /* UniversityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5457F0B12BE008550004EAC3 /* UniversityDetailView.swift */; };
 		5457F0B42BE01CBF0004EAC3 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5457F0B32BE01CBF0004EAC3 /* UserDefaultsManager.swift */; };
+		54B96C952BE127EC003775B5 /* USGFootnoteLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B96C942BE127EC003775B5 /* USGFootnoteLabel.swift */; };
 		54CC11F42BC40F8700DC526A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CC11F32BC40F8700DC526A /* AppDelegate.swift */; };
 		54CC11F62BC40F8700DC526A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CC11F52BC40F8700DC526A /* SceneDelegate.swift */; };
 		54CC11FD2BC40F8800DC526A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54CC11FC2BC40F8800DC526A /* Assets.xcassets */; };
@@ -37,11 +38,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		54006B232BE269B200FECA98 /* UICollectionViewCell+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+Ext.swift"; sourceTree = "<group>"; };
 		544B98212BD9723800B6D325 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		545174262BD99D6B002F173C /* UniversityListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversityListVC.swift; sourceTree = "<group>"; };
-		5457F0AF2BDFFF5B0004EAC3 /* UniversityDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversityDetailCell.swift; sourceTree = "<group>"; };
 		5457F0B12BE008550004EAC3 /* UniversityDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversityDetailView.swift; sourceTree = "<group>"; };
 		5457F0B32BE01CBF0004EAC3 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		54B96C942BE127EC003775B5 /* USGFootnoteLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USGFootnoteLabel.swift; sourceTree = "<group>"; };
 		54CC11F02BC40F8700DC526A /* USG2024-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "USG2024-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		54CC11F32BC40F8700DC526A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		54CC11F52BC40F8700DC526A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				54CC12322BC4309100DC526A /* UIViewController+Ext.swift */,
+				54006B232BE269B200FECA98 /* UICollectionViewCell+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -193,6 +196,7 @@
 				54CC121F2BC4207900DC526A /* USGTitleLabel.swift */,
 				54CC12212BC4227A00DC526A /* USGBodyLabel.swift */,
 				54CC12232BC422F200DC526A /* USGSecondaryTitleLabel.swift */,
+				54B96C942BE127EC003775B5 /* USGFootnoteLabel.swift */,
 			);
 			path = Labels;
 			sourceTree = "<group>";
@@ -221,7 +225,6 @@
 			children = (
 				54CC12512BC5591E00DC526A /* ExpandableCityCell.swift */,
 				54D5EDF02BDAD995007851B4 /* ExpandableUniversityCell.swift */,
-				5457F0AF2BDFFF5B0004EAC3 /* UniversityDetailCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -306,18 +309,19 @@
 				54CC12502BC5590000DC526A /* CityListVC.swift in Sources */,
 				54CC124E2BC5448700DC526A /* HomeVC.swift in Sources */,
 				54CC12182BC4171E00DC526A /* USGError.swift in Sources */,
-				5457F0B02BDFFF5B0004EAC3 /* UniversityDetailCell.swift in Sources */,
 				5457F0B42BE01CBF0004EAC3 /* UserDefaultsManager.swift in Sources */,
 				54CC12292BC4237F00DC526A /* USGAlertVC.swift in Sources */,
 				545174272BD99D6B002F173C /* UniversityListVC.swift in Sources */,
 				54CC12242BC422F200DC526A /* USGSecondaryTitleLabel.swift in Sources */,
 				54CC12332BC4309100DC526A /* UIViewController+Ext.swift in Sources */,
 				54CC121C2BC41F8E00DC526A /* USGContainerView.swift in Sources */,
+				54006B242BE269B200FECA98 /* UICollectionViewCell+Ext.swift in Sources */,
 				54CC12222BC4227A00DC526A /* USGBodyLabel.swift in Sources */,
 				54CC12152BC4163100DC526A /* NetworkManager.swift in Sources */,
 				54CC11F42BC40F8700DC526A /* AppDelegate.swift in Sources */,
 				54CC11F62BC40F8700DC526A /* SceneDelegate.swift in Sources */,
 				5457F0B22BE008550004EAC3 /* UniversityDetailView.swift in Sources */,
+				54B96C952BE127EC003775B5 /* USGFootnoteLabel.swift in Sources */,
 				54CC122E2BC4264200DC526A /* FavouritesListVC.swift in Sources */,
 				54CC12132BC4153B00DC526A /* University.swift in Sources */,
 				54D5EDF12BDAD995007851B4 /* ExpandableUniversityCell.swift in Sources */,

@@ -21,7 +21,13 @@ class HomeVC: UIViewController {
         embedCityListViewController()
     }
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        if let cityListVC = children.first as? CityListVC {
+            cityListVC.dataSource.refresh()
+            cityListVC.collectionView.reloadData()
+            
+        }
+    }
     
     func configureNavigationBar() {
         closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
@@ -31,7 +37,7 @@ class HomeVC: UIViewController {
         view.addSubview(closeButton)
         NSLayoutConstraint.activate([
             closeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor), // Adjust the top anchor
+            closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             closeButton.widthAnchor.constraint(equalToConstant: 20),
             closeButton.heightAnchor.constraint(equalToConstant: 20)
         ])
@@ -41,7 +47,7 @@ class HomeVC: UIViewController {
         view.addSubview(universitelerLabel)
         NSLayoutConstraint.activate([
             universitelerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            universitelerLabel.topAnchor.constraint(equalTo: closeButton.topAnchor) // Adjust the centerYAnchor
+            universitelerLabel.topAnchor.constraint(equalTo: closeButton.topAnchor)
         ])
         
         heartButton.setImage(UIImage(systemName: "heart"), for: .normal)
@@ -54,7 +60,6 @@ class HomeVC: UIViewController {
             heartButton.topAnchor.constraint(equalTo: universitelerLabel.topAnchor)
         ])
     }
-
     
     func embedCityListViewController() {
         let cityListVC = CityListVC()
@@ -63,21 +68,36 @@ class HomeVC: UIViewController {
         view.addSubview(cityListVC.view)
         
         NSLayoutConstraint.activate([
-            cityListVC.view.topAnchor.constraint(equalTo: universitelerLabel.bottomAnchor, constant: 32), // Adjust the top constraint according to your design
+            cityListVC.view.topAnchor.constraint(equalTo: universitelerLabel.bottomAnchor, constant: 32),
             cityListVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
             cityListVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
             cityListVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16)
         ])
         
         cityListVC.didMove(toParent: self)
+        
+//        cityListVC.delegate = self
     }
     
     @objc func closeButtonTapped() {
-        // Handle close button tap event
+        if let cityListVC = children.first as? CityListVC {
+            if let selectedIndexPaths = cityListVC.collectionView.indexPathsForSelectedItems {
+                for indexPath in selectedIndexPaths {
+                    cityListVC.collectionView.deselectItem(at: indexPath, animated: true)
+                }
+                cityListVC.dataSource.refresh()
+            }
+        }
     }
-    
+
     @objc func heartButtonTapped() {
         let destinationVC = FavouritesListVC()
         navigationController?.pushViewController(destinationVC, animated: true)
+    }
+}
+
+extension HomeVC {
+    func didTapWebsite(with url: URL) {
+        presentSafariVC(with: url)
     }
 }

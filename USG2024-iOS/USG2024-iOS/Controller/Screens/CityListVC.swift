@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol CityListVCDelegate: AnyObject {
+    func didTapWebsite(with url: URL)
+}
+
 class CityListVC: UIViewController {
     
     enum Section {
@@ -20,6 +24,8 @@ class CityListVC: UIViewController {
     var collectionView: UICollectionView!
     var dataSource : UICollectionViewDiffableDataSource<Section, City>!
     
+    weak var delegate: CityListVCDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -29,7 +35,6 @@ class CityListVC: UIViewController {
         configureDataSource()
         getCities(page: page)
     }
-    
     
     func configureViewController() {
         navigationController?.setNavigationBarHidden(false, animated: true)
@@ -48,7 +53,6 @@ class CityListVC: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        
         collectionView.delegate = self
         collectionView.dataSource = dataSource
         collectionView.backgroundColor = .systemBackground
@@ -90,10 +94,10 @@ class CityListVC: UIViewController {
     
     private func calculateAvailableWidth() -> CGFloat {
         let width = view.bounds.width
-        let availableWidth = width - 64
+        let availableWidth = width - 48
         return availableWidth
     }
-
+    
 }
 
 extension CityListVC : UICollectionViewDelegate {
@@ -124,12 +128,16 @@ extension CityListVC : UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.collectionViewLayout.invalidateLayout()
-        collectionView.reloadData()
+        collectionView.performBatchUpdates {
+            collectionView.collectionViewLayout.invalidateLayout()
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        collectionView.collectionViewLayout.invalidateLayout()
+        collectionView.performBatchUpdates {
+            collectionView.collectionViewLayout.invalidateLayout()
+        }
     }
 }
 
@@ -141,19 +149,30 @@ extension UICollectionViewDiffableDataSource {
 
 extension CityListVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
         let city = cities[indexPath.row]
         let height: CGFloat = 40
         let isSelected = collectionView.indexPathsForSelectedItems?.contains(indexPath) ?? false
         
         if isSelected {
             let universityCellHeight = CGFloat(city.universities.count) * 40
-            let totalHeight = universityCellHeight + height
+            var totalHeight = universityCellHeight + height
+            if let cell = collectionView.cellForItem(at: indexPath) as? ExpandableCityCell {
+                let universityListVC = cell.universityListVC
+                if let selectedIndexPaths = universityListVC.collectionView.indexPathsForSelectedItems {
+                    totalHeight += CGFloat(selectedIndexPaths.count * 200)
+                }
+            }
             
             return CGSize(width: calculateAvailableWidth(), height: totalHeight)
         } else {
             return CGSize(width: calculateAvailableWidth(), height: height)
         }
+    }
+}
+
+extension CityListVC: ExpandableCityCellDelegate {
+    func didTapWebsite(with url: URL) {
+        delegate?.didTapWebsite(with: url)
     }
 }
 

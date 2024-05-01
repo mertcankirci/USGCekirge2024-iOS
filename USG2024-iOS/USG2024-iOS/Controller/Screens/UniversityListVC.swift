@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol UniversityListDelegate: AnyObject {
+    func resizeCell()
+    func didTapWebsite(with url: URL)
+}
+
 class UniversityListVC: UIViewController {
     
     enum Section {
@@ -17,6 +22,7 @@ class UniversityListVC: UIViewController {
     
     var collectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, University>!
+    weak var delegate: UniversityListDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,24 +75,51 @@ class UniversityListVC: UIViewController {
     
     private func calculateAvailableWidth() -> CGFloat {
         let width = view.bounds.width
-        let availableWidth = width - 64
-        return availableWidth
+        let availableWidth = width
+        return availableWidth - 32
     }
 }
 
 extension UniversityListVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         let cell = collectionView.cellForItem(at: indexPath) as! ExpandableUniversityCell
-        
         if cell.isSelected {
             collectionView.deselectItem(at: indexPath, animated: true)
-            
+            delegate?.resizeCell()
             return true
         } else {
             collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
+            delegate?.resizeCell()
         }
         dataSource.refresh()
         return false
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.collectionViewLayout.invalidateLayout()
+        collectionView.reloadData()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        collectionView.collectionViewLayout.invalidateLayout()
+        delegate?.resizeCell()
+    }
+}
+
+extension UniversityListVC: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let height: CGFloat = 30
+        let isSelected = collectionView.indexPathsForSelectedItems?.contains(indexPath) ?? false
+        
+        if isSelected {
+            let universityCellHeight: CGFloat = 200
+            let totalHeight = universityCellHeight + height
+            
+            return CGSize(width: calculateAvailableWidth(), height: totalHeight)
+        } else {
+            return CGSize(width: calculateAvailableWidth(), height: height)
+        }
     }
 }
 

@@ -24,7 +24,7 @@ struct UIHelper {
     static func createUniversityListCollectionViewFlowLayout(in view: UIView) -> UICollectionViewFlowLayout {
         let width = view.bounds.width
         let padding: CGFloat = 12
-        let availableWidth = (width - 100)
+        let availableWidth = (width - 10)
         let itemWidth = availableWidth
         
         let flowLayout = UICollectionViewFlowLayout()
@@ -33,18 +33,5 @@ struct UIHelper {
         
         return flowLayout
     }
-    
-    static func createDetailListFlowLayout(in view: UIView) -> UICollectionViewFlowLayout {
-        let width = view.bounds.width
-        let padding: CGFloat = 12
-        let availableWidth = (width - 150)
-        let itemWidth = availableWidth
-        
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
-        flowLayout.itemSize = CGSize(width: itemWidth, height: 30)
-        
-        return flowLayout
-    }
-    
+
 }

@@ -28,19 +28,21 @@ class FavouritesListVC: UIViewController {
         view.backgroundColor = .systemBackground
     }
     
+    
     func configureNavigationBar() {
         universitelerLabel.text = "ÜNİVERSİTELER"
         universitelerLabel.textColor = .systemGreen
         view.addSubview(universitelerLabel)
         NSLayoutConstraint.activate([
             universitelerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            universitelerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor) // Adjust the centerYAnchor
+            universitelerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         ])
         
         let closeButton = UIButton(type: .system)
         closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
         closeButton.tintColor = .systemGreen
         closeButton.translatesAutoresizingMaskIntoConstraints = false
+        closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
         view.addSubview(closeButton)
         NSLayoutConstraint.activate([
             closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
@@ -67,6 +69,17 @@ class FavouritesListVC: UIViewController {
             ])
             
             universityListVC.didMove(toParent: self)
+        }
+    }
+    
+    @objc func closeButtonTapped() {
+        if let universityListVC = children.first as? UniversityListVC {
+            if let selectedIndexPaths = universityListVC.collectionView.indexPathsForSelectedItems {
+                for indexPath in selectedIndexPaths {
+                    universityListVC.collectionView.deselectItem(at: indexPath, animated: true)
+                }
+                universityListVC.dataSource.refresh()
+            }
         }
     }
     

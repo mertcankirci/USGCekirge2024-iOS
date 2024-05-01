@@ -7,6 +7,9 @@
 
 import UIKit
 
+protocol ExpandableCityCellDelegate: AnyObject {
+    func didTapWebsite(with url: URL)
+}
 
 class ExpandableCityCell: UICollectionViewCell {
     static let reuseID = "CityCell"
@@ -16,6 +19,8 @@ class ExpandableCityCell: UICollectionViewCell {
     let expandCollapseImageView = UIImageView()
     let containerView = USGContainerView(frame: .zero)
     var universityListVC = UniversityListVC()
+    
+    weak var delegate: ExpandableCityCellDelegate?
     
     override var isSelected: Bool {
         didSet {
@@ -35,6 +40,7 @@ class ExpandableCityCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
+        universityListVC.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -73,12 +79,12 @@ class ExpandableCityCell: UICollectionViewCell {
             cityLabel.heightAnchor.constraint(equalToConstant: 20),
             
             containerView.topAnchor.constraint(equalTo: cityLabel.bottomAnchor, constant: padding),
-            containerView.leadingAnchor.constraint(equalTo: expandCollapseImageView.leadingAnchor, constant: padding),
+            containerView.leadingAnchor.constraint(equalTo: expandCollapseImageView.trailingAnchor),
             containerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             containerView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             universityListVC.view.topAnchor.constraint(equalTo: containerView.topAnchor),
-            universityListVC.view.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
+            universityListVC.view.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             universityListVC.view.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
             universityListVC.view.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ])
@@ -86,4 +92,16 @@ class ExpandableCityCell: UICollectionViewCell {
         containerView.isHidden = true
     }
     
+}
+
+extension ExpandableCityCell: UniversityListDelegate {
+    func didTapWebsite(with url: URL) {
+        print("BASTIM")
+        delegate?.didTapWebsite(with: url)
+    }
+    
+    func resizeCell() {
+        guard let collectionView = superview as? UICollectionView else { return }
+        collectionView.collectionViewLayout.invalidateLayout()
+    }
 }
