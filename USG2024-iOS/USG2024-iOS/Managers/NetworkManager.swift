@@ -10,9 +10,10 @@ import UIKit
 class NetworkManager {
     static let shared = NetworkManager()
     private var baseUrl: String = "https://storage.googleapis.com/invio-com/usg-challenge/universities-at-turkey/page-"
+    var page: Int = 1
     private init() {}
     
-    func getCities(page: Int, completed: @escaping(Result<NetworkResult, USGError>) -> Void) {
+    func getCities(completed: @escaping(Result<NetworkResult, USGError>) -> Void) {
         let endpoint = baseUrl + "\(page).json"
         guard let url = URL(string: endpoint) else {
             completed(.failure(.unableToRequestFromURL))
@@ -38,6 +39,7 @@ class NetworkManager {
             do {
                 let decoder = JSONDecoder()
                 let result = try decoder.decode(NetworkResult.self, from: data)
+                
                 completed(.success(result))
             } catch {
                 completed(.failure(.invalidData))

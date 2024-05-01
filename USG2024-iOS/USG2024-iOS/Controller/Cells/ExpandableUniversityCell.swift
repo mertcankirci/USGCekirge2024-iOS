@@ -34,7 +34,6 @@ class ExpandableUniversityCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
-        universityDetailView.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -101,7 +100,7 @@ class ExpandableUniversityCell: UICollectionViewCell {
                 do {
                     try UserDefaultsManager.shared.addUniversityToFavorites(university)
                 } catch {
-                    inputViewController?.presentGFAlertOnMainThread(title: "ASD", message: "ASD", buttonTitle: "ASD")
+                    inputViewController?.presentUSGAlertOnMainThread(title: "ASD", message: "ASD", buttonTitle: "ASD")
                 }
             } else {
                 heartButton.setImage(UIImage(systemName: "heart"), for: .normal)
@@ -116,13 +115,4 @@ class ExpandableUniversityCell: UICollectionViewCell {
     }
 }
 
-extension ExpandableUniversityCell: UniversityDetailViewDelegate {
-    func didTapWebsite(url: URL) {
-        print("Bastim")
-        if let homeVC = findViewController() as? HomeVC {
-            homeVC.didTapWebsite(with: url)
-            print("BASTIM2")
-        }
-    }
-}
 

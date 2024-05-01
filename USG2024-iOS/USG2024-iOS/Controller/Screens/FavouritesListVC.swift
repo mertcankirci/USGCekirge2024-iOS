@@ -11,6 +11,7 @@ class FavouritesListVC: UIViewController {
     
     let closeButton = UIButton(type: .system)
     let universitelerLabel = USGTitleLabel(textAlignment: .center, fontSize: 22)
+    let universityListVC = UniversityListVC()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +23,12 @@ class FavouritesListVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.tintColor = .systemGreen
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        coordinator.animate { _ in
+            self.universityListVC.collectionView.collectionViewLayout = UIHelper.createUniversityListCollectionViewFlowLayout(in: self.universityListVC.view)
+        }
     }
     
     func configureViewController() {
@@ -53,9 +60,9 @@ class FavouritesListVC: UIViewController {
     func embedCityListViewController() {
         let favorites = UserDefaultsManager.shared.loadFavoriteUniversities()
         if favorites.isEmpty {
-            showEmptyStateView(with: "You don't have any favorites. Go favorite a few universities 😊.", in: self.view)
+            showEmptyStateView(with: "Şu an henüz favori üniversiten yok. Hadi birkaç tane favorileyelim 😊!", in: self.view)
         } else {
-            let universityListVC = UniversityListVC()
+            universityListVC.delegate = self
             universityListVC.updateData(on: UserDefaultsManager.shared.loadFavoriteUniversities())
             addChild(universityListVC)
             universityListVC.view.translatesAutoresizingMaskIntoConstraints = false
@@ -83,4 +90,18 @@ class FavouritesListVC: UIViewController {
         }
     }
     
+}
+
+extension FavouritesListVC: UniversityListDelegate {
+    func didTapPhone(with url: URL) {
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+    
+    func resizeCell() {
+        universityListVC.collectionView.collectionViewLayout.invalidateLayout()
+    }
+    
+    func didTapWebsite(with url: URL) {
+        presentSafariVC(with: url)
+    }
 }

@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol ExpandableCityCellDelegate: AnyObject {
-    func didTapWebsite(with url: URL)
-}
-
 class ExpandableCityCell: UICollectionViewCell {
     static let reuseID = "CityCell"
     let padding: CGFloat = 8
@@ -20,7 +16,6 @@ class ExpandableCityCell: UICollectionViewCell {
     let containerView = USGContainerView(frame: .zero)
     var universityListVC = UniversityListVC()
     
-    weak var delegate: ExpandableCityCellDelegate?
     
     override var isSelected: Bool {
         didSet {
@@ -36,11 +31,9 @@ class ExpandableCityCell: UICollectionViewCell {
         }
     }
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
-        universityListVC.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -51,6 +44,7 @@ class ExpandableCityCell: UICollectionViewCell {
         self.city = city
         cityLabel.text = city.province
         universityListVC.updateData(on: city.universities)
+        expandCollapseImageView.isHidden = city.universities.count > 0 ? false : true
     }
     
     private func configure() {
@@ -90,18 +84,7 @@ class ExpandableCityCell: UICollectionViewCell {
         ])
         
         containerView.isHidden = true
+        expandCollapseImageView.isHidden = city?.universities.count ?? 0 > 0 ? false : true
     }
-    
 }
 
-extension ExpandableCityCell: UniversityListDelegate {
-    func didTapWebsite(with url: URL) {
-        print("BASTIM")
-        delegate?.didTapWebsite(with: url)
-    }
-    
-    func resizeCell() {
-        guard let collectionView = superview as? UICollectionView else { return }
-        collectionView.collectionViewLayout.invalidateLayout()
-    }
-}

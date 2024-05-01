@@ -9,6 +9,7 @@ import UIKit
 
 protocol CityListVCDelegate: AnyObject {
     func didTapWebsite(with url: URL)
+    func didTapPhone(with url: URL)
 }
 
 class CityListVC: UIViewController {
@@ -18,7 +19,6 @@ class CityListVC: UIViewController {
     }
     
     var cities: [City] = []
-    var page: Int = 1
     var hasMoreCities: Bool = true
     
     var collectionView: UICollectionView!
@@ -33,7 +33,15 @@ class CityListVC: UIViewController {
         configureCollectionView()
         configureViewController()
         configureDataSource()
-        getCities(page: page)
+//        getCities()
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        coordinator.animate { _ in
+            self.collectionView.collectionViewLayout = UIHelper.createCityListCollectionViewFlowLayout(in: self.view)
+        }
+        
+        super.viewWillTransition(to: size, with: coordinator)
     }
     
     func configureViewController() {
@@ -64,20 +72,21 @@ class CityListVC: UIViewController {
         dataSource = UICollectionViewDiffableDataSource<Section, City>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, city) -> UICollectionViewCell? in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ExpandableCityCell.reuseID, for: indexPath) as! ExpandableCityCell
             cell.set(city: city)
+            cell.universityListVC.delegate = self
             return cell
         })
     }
     
-    private func updateData(on cities: [City]) {
+    func updateData(on cities: [City]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, City>()
         snapshot.appendSections([.main])
         snapshot.appendItems(cities)
         DispatchQueue.main.async { self.dataSource.apply(snapshot, animatingDifferences: true) }
     }
     
-    func getCities(page: Int) {
+    func getCities() {
         showLoadingView()
-        NetworkManager.shared.getCities(page: page) { [weak self] result in
+        NetworkManager.shared.getCities() { [weak self] result in
             guard let self = self else { return }
             self.dismissLoadingView()
             
@@ -87,7 +96,7 @@ class CityListVC: UIViewController {
                 self.cities.append(contentsOf: result.data)
                 self.updateData(on: cities)
             case .failure(let error):
-                self.presentGFAlertOnMainThread(title: "Error", message: error.rawValue, buttonTitle: "OK")
+                self.presentUSGAlertOnMainThread(title: "Error", message: error.rawValue, buttonTitle: "OK")
             }
         }
     }
@@ -108,15 +117,15 @@ extension CityListVC : UICollectionViewDelegate {
         
         if offSetY > contentHeight - height {
             guard hasMoreCities else { return }
-            page += 1
-            getCities(page: page)
+            NetworkManager.shared.page += 1
+            getCities()
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         let cell = collectionView.cellForItem(at: indexPath) as! ExpandableCityCell
         if cell.isSelected {
-            collectionView.deselectItem(at: indexPath, animated: true)
+        collectionView.deselectItem(at: indexPath, animated: true)
             
             return true
         } else {
@@ -170,9 +179,27 @@ extension CityListVC: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension CityListVC: ExpandableCityCellDelegate {
+//extension CityListVC: ExpandableCityCellDelegate {
+//    func didTapWebsite(with url: URL) {
+//        delegate?.didTapWebsite(with: url)
+//    }
+//}
+
+extension CityListVC: UniversityListDelegate {
+    func didTapPhone(with url: URL) {
+        guard let delegate = delegate else { return }
+        delegate.didTapPhone(with: url)
+    }
+    
+    
+    func resizeCell() { 
+        collectionView.collectionViewLayout.invalidateLayout()
+        
+    }
+    
     func didTapWebsite(with url: URL) {
-        delegate?.didTapWebsite(with: url)
+        guard let delegate = delegate else { return }
+        delegate.didTapWebsite(with: url)
     }
 }
 

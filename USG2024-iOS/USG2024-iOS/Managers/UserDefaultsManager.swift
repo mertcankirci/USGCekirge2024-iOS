@@ -20,7 +20,9 @@ class UserDefaultsManager {
             let data = try encoder.encode(favoriteUniversities)
             defaults.set(data, forKey: "favoriteUniversities")
         } catch {
+            #if DEBUG
             print("Error saving favorite universities: \(error)")
+            #endif
         }
     }
     

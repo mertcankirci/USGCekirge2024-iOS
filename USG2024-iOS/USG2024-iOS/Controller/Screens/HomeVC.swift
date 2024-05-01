@@ -13,6 +13,7 @@ class HomeVC: UIViewController {
     let closeButton = UIButton(type: .system)
     let universitelerLabel = USGTitleLabel(textAlignment: .center, fontSize: 22)
     let heartButton = UIButton(type: .system)
+    let cityListVC = CityListVC()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,9 +63,9 @@ class HomeVC: UIViewController {
     }
     
     func embedCityListViewController() {
-        let cityListVC = CityListVC()
         addChild(cityListVC)
         cityListVC.view.translatesAutoresizingMaskIntoConstraints = false
+        cityListVC.delegate = self
         view.addSubview(cityListVC.view)
         
         NSLayoutConstraint.activate([
@@ -75,8 +76,6 @@ class HomeVC: UIViewController {
         ])
         
         cityListVC.didMove(toParent: self)
-        
-//        cityListVC.delegate = self
     }
     
     @objc func closeButtonTapped() {
@@ -96,8 +95,11 @@ class HomeVC: UIViewController {
     }
 }
 
-extension HomeVC {
+extension HomeVC: CityListVCDelegate {
     func didTapWebsite(with url: URL) {
         presentSafariVC(with: url)
+    }
+    func didTapPhone(with url: URL) {
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 }

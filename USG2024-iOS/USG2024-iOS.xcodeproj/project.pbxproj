@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		54006B242BE269B200FECA98 /* UICollectionViewCell+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54006B232BE269B200FECA98 /* UICollectionViewCell+Ext.swift */; };
+		5448F3672BE2BEB000126D79 /* SplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5448F3662BE2BEB000126D79 /* SplashVC.swift */; };
 		544B98222BD9723800B6D325 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B98212BD9723800B6D325 /* UIHelper.swift */; };
 		545174272BD99D6B002F173C /* UniversityListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545174262BD99D6B002F173C /* UniversityListVC.swift */; };
 		5457F0B22BE008550004EAC3 /* UniversityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5457F0B12BE008550004EAC3 /* UniversityDetailView.swift */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		54006B232BE269B200FECA98 /* UICollectionViewCell+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+Ext.swift"; sourceTree = "<group>"; };
+		5448F3662BE2BEB000126D79 /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
 		544B98212BD9723800B6D325 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		545174262BD99D6B002F173C /* UniversityListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversityListVC.swift; sourceTree = "<group>"; };
 		5457F0B12BE008550004EAC3 /* UniversityDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversityDetailView.swift; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 				54CC124D2BC5448700DC526A /* HomeVC.swift */,
 				54CC124F2BC5590000DC526A /* CityListVC.swift */,
 				545174262BD99D6B002F173C /* UniversityListVC.swift */,
+				5448F3662BE2BEB000126D79 /* SplashVC.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 				54CC12522BC5591E00DC526A /* ExpandableCityCell.swift in Sources */,
 				54CC12352BC430FE00DC526A /* USGEmptyStateView.swift in Sources */,
 				54CC12502BC5590000DC526A /* CityListVC.swift in Sources */,
+				5448F3672BE2BEB000126D79 /* SplashVC.swift in Sources */,
 				54CC124E2BC5448700DC526A /* HomeVC.swift in Sources */,
 				54CC12182BC4171E00DC526A /* USGError.swift in Sources */,
 				5457F0B42BE01CBF0004EAC3 /* UserDefaultsManager.swift in Sources */,

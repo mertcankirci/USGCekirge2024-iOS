@@ -31,7 +31,7 @@ class USGEmptyStateView: UIView {
         addSubview(messageLabel)
         addSubview(logoImageView)
         
-        messageLabel.numberOfLines = 3
+        messageLabel.numberOfLines = 4
         messageLabel.textColor = .secondaryLabel
         
         logoImageView.image = UIImage(named: "empty-state-logo")

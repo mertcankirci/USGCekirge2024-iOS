@@ -10,6 +10,7 @@ import SafariServices
 
 protocol UniversityDetailViewDelegate: AnyObject {
     func didTapWebsite(url: URL)
+    func didTapPhone(url: URL)
 }
 
 class UniversityDetailView: UIView {
@@ -17,7 +18,6 @@ class UniversityDetailView: UIView {
     var university: University? = nil
     let padding: CGFloat = 8.0
     
-    //UIElements
     var phoneLabel = USGFootnoteLabel(textAlignment: .left)
     var faxLabel = USGFootnoteLabel(textAlignment: .left)
     var websiteLabel = USGFootnoteLabel(textAlignment: .left)
@@ -88,12 +88,13 @@ class UniversityDetailView: UIView {
     
     @objc func phoneLabelTapped() {
         guard let phoneNumber = university?.phone, let url = URL(string: "tel://\(phoneNumber)") else { return }
-        UIApplication.shared.open(url)
+        guard let delegate = delegate else { return }
+        delegate.didTapPhone(url: url)
     }
     
     @objc func websiteLabelTapped() {
-        guard let website = university?.website, let url = URL(string: website) else { print("YARRAK"); return }
-        guard let delegate = delegate else { print("delegate yok"); return }
+        guard let website = university?.website, let url = URL(string: website) else { return }
+        guard let delegate = delegate else { return }
         delegate.didTapWebsite(url: url)
     }
 }

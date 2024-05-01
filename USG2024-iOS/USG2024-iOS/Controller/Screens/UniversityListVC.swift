@@ -10,6 +10,7 @@ import UIKit
 protocol UniversityListDelegate: AnyObject {
     func resizeCell()
     func didTapWebsite(with url: URL)
+    func didTapPhone(with url: URL)
 }
 
 class UniversityListVC: UIViewController {
@@ -61,7 +62,7 @@ class UniversityListVC: UIViewController {
         dataSource = UICollectionViewDiffableDataSource<Section, University>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, university) -> UICollectionViewCell? in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ExpandableUniversityCell.reuseID, for: indexPath) as! ExpandableUniversityCell
             cell.set(university: university)
-            
+            cell.universityDetailView.delegate = self
             return cell
         })
     }
@@ -108,7 +109,6 @@ extension UniversityListVC: UICollectionViewDelegate {
 
 extension UniversityListVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
         let height: CGFloat = 30
         let isSelected = collectionView.indexPathsForSelectedItems?.contains(indexPath) ?? false
         
@@ -120,6 +120,18 @@ extension UniversityListVC: UICollectionViewDelegateFlowLayout {
         } else {
             return CGSize(width: calculateAvailableWidth(), height: height)
         }
+    }
+}
+
+extension UniversityListVC: UniversityDetailViewDelegate {
+    func didTapPhone(url: URL) {
+        guard let delegate = delegate else { return }
+        delegate.didTapPhone(with: url)
+    }
+    
+    func didTapWebsite(url: URL) {
+        guard let delegate = delegate else { return }
+        delegate.didTapWebsite(with: url)
     }
 }
 

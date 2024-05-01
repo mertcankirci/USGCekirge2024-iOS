@@ -10,7 +10,8 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    
+    let splashVC = SplashVC()
+    let homeVC = HomeVC()
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -20,11 +21,50 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        let navigationController = UINavigationController(rootViewController: HomeVC())
-        window?.rootViewController = navigationController
+//        let navigationController = UINavigationController(rootViewController: homeVC)
+//        window?.rootViewController = navigationController
+        window?.rootViewController = splashVC
         window?.makeKeyAndVisible()
         
+        fetchData()
     }
+    
+    func fetchData() {
+        NetworkManager.shared.getCities { [weak self] result in
+            guard let self = self else { return }
+
+            switch result {
+            case .success(let success):
+                DispatchQueue.main.async {
+                    self.handleDataFetchSuccess(data: success.data)
+                    self.homeVC.cityListVC.cities = success.data
+                    self.homeVC.cityListVC.updateData(on: success.data)
+                }
+            case .failure(let failure):
+                DispatchQueue.main.async {
+                    self.handleDataFetchFailure(error: failure)
+                }
+            }
+        }
+    }
+
+    func handleDataFetchSuccess(data: [City]) {
+        // Handle successful data fetch
+        let navigationController = UINavigationController(rootViewController: homeVC)
+        window?.rootViewController = navigationController
+        window?.makeKeyAndVisible()
+    }
+
+    func handleDataFetchFailure(error: USGError) {
+        // Handle data fetch failure
+        print("Data fetch error: \(error)")
+        splashVC.presentUSGAlertOnMainThread(title: "Error", message: "Unable to fetch data. Please try again later.", buttonTitle: "OK")
+    }
+
+    
+    
+    
+    
     
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -58,3 +98,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 }
 
+/*
+ func fetchData() {
+     NetworkManager.shared.getCities { [weak self] result in
+         guard let self = self else { return }
+         switch result {
+         case .success(let success):
+             self.homeVC.cityListVC.cities = success.data
+             let navigationController = UINavigationController(rootViewController: self.homeVC)
+             self.window?.rootViewController = navigationController
+             window?.makeKeyAndVisible()
+         case .failure(let failure):
+             self.splashScreen.presentUSGAlertOnMainThread(title: "Error", message: "Unable to fetch please try again later", buttonTitle: "OK")
+             
+         }
+     }
+ }
+ */
