@@ -86,6 +86,7 @@ extension UniversityListVC: UICollectionViewDelegate {
         let cell = collectionView.cellForItem(at: indexPath) as! ExpandableUniversityCell
         if cell.isSelected {
             collectionView.deselectItem(at: indexPath, animated: true)
+            dataSource.refresh()
             delegate?.resizeCell()
             return true
         } else {

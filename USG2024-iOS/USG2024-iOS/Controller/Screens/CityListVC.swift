@@ -33,7 +33,6 @@ class CityListVC: UIViewController {
         configureCollectionView()
         configureViewController()
         configureDataSource()
-//        getCities()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -61,6 +60,7 @@ class CityListVC: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+        
         collectionView.delegate = self
         collectionView.dataSource = dataSource
         collectionView.backgroundColor = .systemBackground
@@ -125,8 +125,8 @@ extension CityListVC : UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         let cell = collectionView.cellForItem(at: indexPath) as! ExpandableCityCell
         if cell.isSelected {
-        collectionView.deselectItem(at: indexPath, animated: true)
-            
+            collectionView.deselectItem(at: indexPath, animated: true)
+            dataSource.refresh()
             return true
         } else {
             collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
@@ -179,20 +179,13 @@ extension CityListVC: UICollectionViewDelegateFlowLayout {
     }
 }
 
-//extension CityListVC: ExpandableCityCellDelegate {
-//    func didTapWebsite(with url: URL) {
-//        delegate?.didTapWebsite(with: url)
-//    }
-//}
-
 extension CityListVC: UniversityListDelegate {
     func didTapPhone(with url: URL) {
         guard let delegate = delegate else { return }
         delegate.didTapPhone(with: url)
     }
     
-    
-    func resizeCell() { 
+    func resizeCell() {
         collectionView.collectionViewLayout.invalidateLayout()
         
     }

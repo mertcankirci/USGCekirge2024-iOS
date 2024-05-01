@@ -26,7 +26,6 @@ class HomeVC: UIViewController {
         if let cityListVC = children.first as? CityListVC {
             cityListVC.dataSource.refresh()
             cityListVC.collectionView.reloadData()
-            
         }
     }
     

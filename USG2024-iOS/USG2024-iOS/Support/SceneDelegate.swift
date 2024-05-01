@@ -21,8 +21,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-//        let navigationController = UINavigationController(rootViewController: homeVC)
-//        window?.rootViewController = navigationController
         window?.rootViewController = splashVC
         window?.makeKeyAndVisible()
         
@@ -49,23 +47,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func handleDataFetchSuccess(data: [City]) {
-        // Handle successful data fetch
         let navigationController = UINavigationController(rootViewController: homeVC)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
 
     func handleDataFetchFailure(error: USGError) {
-        // Handle data fetch failure
         print("Data fetch error: \(error)")
         splashVC.presentUSGAlertOnMainThread(title: "Error", message: "Unable to fetch data. Please try again later.", buttonTitle: "OK")
     }
-
-    
-    
-    
-    
-    
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

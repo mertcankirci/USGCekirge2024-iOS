@@ -35,11 +35,11 @@ class FavouritesListVC: UIViewController {
         view.backgroundColor = .systemBackground
     }
     
-    
     func configureNavigationBar() {
         universitelerLabel.text = "ÜNİVERSİTELER"
         universitelerLabel.textColor = .systemGreen
         view.addSubview(universitelerLabel)
+        
         NSLayoutConstraint.activate([
             universitelerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             universitelerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
